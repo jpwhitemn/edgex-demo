@@ -1,4 +1,5 @@
-# Jim's EdgeX Demo
+Jim's EdgeX Demo
+================
 Dec 28, 2018
 This is my EdgeX Demo using my SNMP and MQTT Device services.
 
@@ -7,18 +8,21 @@ This is my EdgeX Demo using my SNMP and MQTT Device services.
 
 And then the regular EdgeX services (per the docker compose file in this repo)
 
-##Build##
+Build
+-----
 Build the Docker container for the patlite & MQTT device service, and the Clojure UI (from IoTech)
 
 - docker build -t jims/docker-device-snmp-patlite:0.9.0 .
 - docker build -t jims/docker-device-mqtt:0.9.0 .
 - docker build -t jims/docker-edgex-ui-clojure:0.9.0 .
 
-##Run##
+Run
+---
 Then docker compose up the services.  
 Note that rules engine starts slowly and may have to be brought up after all other services are up.
 
-##Setup and Populate##
+Setup and Populate
+------------------
 Add the export client(s) as needed
 {"name":"CloudMQTTEndpoint","addressable":{"name":"CloudMQTTEndpointAddress","protocol":"TCP","address":"m15.cloudmqtt.com","port":14866,"publisher":"edgex","user":"dtdsmcdu", "password":"password","topic":"data"},"format":"JSON","enable":true,"destination":"MQTT_TOPIC"}
 
