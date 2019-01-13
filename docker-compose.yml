@@ -249,12 +249,32 @@ services:
 # Device Services
 #################################################################
 
+# NOTE:  special Jim White image
   device-snmp-patlite:
     image: jims/docker-device-snmp-patlite:0.9.0
     ports:
       - "49992:49992"
     container_name: edgex-device-snmp-patlite
     hostname: edgex-device-snmp-patlite
+    networks:
+      - edgex-network
+    volumes:
+      - db-data:/data/db
+      - log-data:/edgex/logs
+      - consul-config:/consul/config
+      - consul-data:/consul/data
+    depends_on:
+      - data
+      - command
+
+# NOTE:  special Jim White image
+  device-modbus:
+    image: jims/docker-device-modbus:0.9.0
+    ports:
+      - "49991:49991"
+    container_name: edgex-device-modbus
+    hostname: edgex-device-modbus
+    privileged: true
     networks:
       - edgex-network
     volumes:
@@ -300,22 +320,23 @@ services:
 #      - data
 #      - command
 
-  device-mqtt:
-    image: jims/docker-device-mqtt:0.9.0
-    ports:
-      - "49982:49982"
-    container_name: edgex-device-mqtt
-    hostname: edgex-device-mqtt
-    networks:
-      - edgex-network
-    volumes:
-      - db-data:/data/db
-      - log-data:/edgex/logs
-      - consul-config:/consul/config
-      - consul-data:/consul/data
-    depends_on:
-      - data
-      - command
+# NOTE:  special Jim White image
+#  device-mqtt:
+#    image: jims/docker-device-mqtt:0.9.0
+#    ports:
+#      - "49982:49982"
+#    container_name: edgex-device-mqtt
+#    hostname: edgex-device-mqtt
+#    networks:
+#      - edgex-network
+#    volumes:
+#      - db-data:/data/db
+#      - log-data:/edgex/logs
+#      - consul-config:/consul/config
+#      - consul-data:/consul/data
+#    depends_on:
+#      - data
+#      - command
 
 #  device-modbus:
 #    image: edgexfoundry/docker-device-modbus-go:0.7.1
@@ -334,27 +355,27 @@ services:
 #      - data
 #      - command
 
-#   device-bluetooth:
-#     image: nexus3.edgexfoundry.org:10004/docker-device-bluetooth:0.6.0
-#     ports:
-#       - "49988:49988"
-#       - "5000:5000"
-#     container_name: edgex-device-bluetooth
-#     hostname: edgex-device-bluetooth
-#     privileged: true  
-#     network_mode: "host"
-#     cap_add:
-#       - NET_ADMIN
-# #    networks:
-# #      - edgex-network
+#  device-bluetooth:
+#    image: nexus3.edgexfoundry.org:10004/docker-device-bluetooth:0.6.0
+#    ports:
+#      - "49988:49988"
+#      - "5000:5000"
+#    container_name: edgex-device-bluetooth
+#    hostname: edgex-device-bluetooth
+#    privileged: true  
+#    network_mode: "host"
+#    cap_add:
+#      - NET_ADMIN
+#    networks:
+#      - edgex-network
 #    volumes:
 #      - db-data:/data/db
 #      - log-data:/edgex/logs
 #      - consul-config:/consul/config
 #      - consul-data:/consul/data
-#     depends_on:
-#       - data
-#       - command
+#    depends_on:
+#      - data
+#      - command
 
 #   device-snmp:
 #     image: nexus3.edgexfoundry.org:10004/docker-device-snmp:0.6.0
@@ -428,6 +449,7 @@ services:
 #      - data
 #      - command
 
+# NOTE:  special Jim White image
   ui:
     image: jims/docker-edgex-ui-clojure:0.9.0
     ports:
