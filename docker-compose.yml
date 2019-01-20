@@ -239,6 +239,8 @@ services:
     hostname: edgex-support-rulesengine
     networks:
       - edgex-network
+    depends_on:
+      - export-distro
     volumes:
       - db-data:/data/db
       - log-data:/edgex/logs
@@ -264,8 +266,7 @@ services:
       - consul-config:/consul/config
       - consul-data:/consul/data
     depends_on:
-      - data
-      - command
+      - rulesengine
 
 # NOTE:  special Jim White image
   device-modbus:
@@ -283,8 +284,7 @@ services:
       - consul-config:/consul/config
       - consul-data:/consul/data
     depends_on:
-      - data
-      - command
+      - rulesengine
 
 #  device-virtual:
 #    image: edgexfoundry/docker-device-virtual:0.6.0
@@ -321,22 +321,21 @@ services:
 #      - command
 
 # NOTE:  special Jim White image
-#  device-mqtt:
-#    image: jims/docker-device-mqtt:0.9.0
-#    ports:
-#      - "49982:49982"
-#    container_name: edgex-device-mqtt
-#    hostname: edgex-device-mqtt
-#    networks:
-#      - edgex-network
-#    volumes:
-#      - db-data:/data/db
-#      - log-data:/edgex/logs
-#      - consul-config:/consul/config
-#      - consul-data:/consul/data
-#    depends_on:
-#      - data
-#      - command
+  device-mqtt:
+    image: jims/docker-device-mqtt:0.9.0
+    ports:
+      - "49982:49982"
+    container_name: edgex-device-mqtt
+    hostname: edgex-device-mqtt
+    networks:
+      - edgex-network
+    volumes:
+      - db-data:/data/db
+      - log-data:/edgex/logs
+      - consul-config:/consul/config
+      - consul-data:/consul/data
+    depends_on:
+      - rulesengine
 
 #  device-modbus:
 #    image: edgexfoundry/docker-device-modbus-go:0.7.1
@@ -464,6 +463,7 @@ services:
       - consul-config:/consul/config
       - consul-data:/consul/data
     depends_on:
+      - metadata
       - data
       - command
 
